@@ -1,24 +1,16 @@
 import CurrentClock from "./current_clock";
 import logo from './logo.svg';
 import './App.css';
+import TimeArea from "./time_area";
+import Button from "@material-ui/core/Button";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <CurrentClock/>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <TimeArea/>
       </header>
     </div>
   );
