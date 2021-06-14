@@ -20,7 +20,7 @@ class CurrentClock extends React.Component
         let list_string = window.localStorage.getItem("time_area_list" );
         let list = []
 
-        if ( list_string.length !== 0 )
+        if ( list_string !== null && list_string !== undefined && list_string.length !== 0 )
         {
             list = JSON.parse( list_string )
         }
