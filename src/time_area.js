@@ -60,7 +60,7 @@ class TimeArea extends React.Component
         let obj = window.localStorage.getItem("time_area_list")
         if ( obj === null || obj === undefined )
         {
-            obj = {}
+            obj = []
         }
         else
         {
