@@ -70,16 +70,19 @@ class TimeArea extends React.Component
             }
             catch(e)
             {
-                obj = {};
+                obj = [];
             }
         }
 
-        let hour = this.state.begin_selected_time.getHours();
-        let min = this.state.begin_selected_time.getMinutes();
-        let area_name = this.state.area_name
-        obj[ obj.length ] = { area_name: area_name, hour: hour, min: min }
+        let start_hour = this.state.begin_selected_time.getHours();
+        let start_min = this.state.begin_selected_time.getMinutes();
 
-        console.log( this.props.classes.input )
+        let end_hour = this.state.end_selected_time.getHours();
+        let end_min = this.state.end_selected_time.getMinutes();
+
+        let area_name = this.state.area_name
+        obj[ obj.length ] = { area_name: area_name, start_hour: start_hour, start_min: start_min,
+            end_hour: end_hour, end_min: end_min }
 
         window.localStorage.setItem("time_area_list", JSON.stringify(obj))
 
