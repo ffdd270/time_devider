@@ -101,9 +101,35 @@ class CurrentClock extends React.Component
 
         if ( list.length === 0 )  { return (<p>없어용!</p>) }
 
+        for ( let select_list_data of list )
+        {
+            let start_area_end_tm = this.getTm(select_list_data.end_hour, select_list_data.end_min)
+            let next_area_data = null;
+
+            for ( let area_data of this.state.time_area_list )
+            {
+                let area_start_tm = this.getTm(area_data.start_hour, area_data.start_min)
+
+                if ( start_area_end_tm === area_start_tm )
+                {
+                    next_area_data = area_data;
+                    break;
+                }
+            }
+
+            select_list_data.next_area_data = next_area_data
+
+        }
+        
         return (list.map( (area_data) => {
+            let next_area_name = ''
+            if ( area_data.next_area_data !== null )
+            {
+                next_area_name = " -> 다음 권역 : " + area_data.next_area_data.area_name
+            }
+
             return <div>
-                <p>{ "현재 권역 : " + area_data.area_name }</p>
+                <p>{ "현재 권역 : " + area_data.area_name + next_area_name }</p>
                 <p>{" 남은 시간 : " + this.getRemainTime( area_data.end_hour, area_data.end_min )}</p>
             </div>
         }))
