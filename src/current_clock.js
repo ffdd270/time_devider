@@ -43,17 +43,48 @@ class CurrentClock extends React.Component
         return this.getTm( cur_hour, cur_min, cur_sec )
     }
 
-    getRemainTime( area_hour, area_min )
+    getRemainSec( area_hour, area_min )
     {
         let area_tm = this.getTm( area_hour, area_min )
         let cur_tm = this.getCurTm()
-        let remain_tm = area_tm - cur_tm
-
-        return remain_tm
+        return area_tm - cur_tm
     }
 
+    paddingStr( str )
+    {
+        if ( str.length < 2 )
+        {
+            str = "0" + str;
+        }
 
-    drawRemainAreaTm( )
+        return str;
+    }
+
+    getRemainTime( area_hour, area_min )
+    {
+        let sec = this.getRemainSec( area_hour, area_min )
+        let hour = Math.floor( sec / 60 / 60 )
+        sec -= ( hour * 60 * 60 )
+        let min = Math.floor( sec / 60 );
+        sec -= ( min * 60 )
+
+        let result_str = ""
+
+        if ( hour > 0 )
+        {
+            result_str += this.paddingStr( hour.toString() ) + ":";
+        }
+
+        if ( min > 0 )
+        {
+            result_str += this.paddingStr( min.toString() ) + ":";
+        }
+
+        result_str += this.paddingStr( sec.toString() );
+        return result_str;
+    }
+
+    drawRemainAreaTm()
     {
         let cur_tm = this.getCurTm();
         let list = []
