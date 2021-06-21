@@ -1,5 +1,5 @@
 import React from "react";
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 class CurrentClock extends React.Component
 {
@@ -41,6 +41,18 @@ class CurrentClock extends React.Component
         let cur_min = now.getMinutes()
         let cur_sec = now.getSeconds()
         return this.getTm( cur_hour, cur_min, cur_sec )
+    }
+
+    getRemainPercent( start_hour, start_min, end_hour, end_min )
+    {
+        let start_tm = this.getTm( start_hour, start_min )
+        let end_tm = this.getTm( end_hour, end_min )
+
+        let total_tm = end_tm - start_tm
+        let cur_tm = this.getCurTm()
+        let remain_tm = end_tm - cur_tm
+
+        return Math.floor( (remain_tm / total_tm) * 1000 ) / 10
     }
 
     getRemainSec( area_hour, area_min )
@@ -127,10 +139,13 @@ class CurrentClock extends React.Component
             {
                 next_area_name = " -> 다음 권역 : " + area_data.next_area_data.area_name
             }
-
+            let percent =  this.getRemainPercent( area_data.start_hour, area_data.start_min, area_data.end_hour, area_data.end_min )
             return <div>
                 <p>{ "현재 권역 : " + area_data.area_name + next_area_name }</p>
-                <p>{" 남은 시간 : " + this.getRemainTime( area_data.end_hour, area_data.end_min )}</p>
+                <p>{" 남은 시간 : " + this.getRemainTime( area_data.end_hour, area_data.end_min ) + " (" + percent + "%)" }</p>
+                <div>
+                    <LinearProgress variant="determinate" value={ 100 - percent } />
+                </div>
             </div>
         }))
     }
