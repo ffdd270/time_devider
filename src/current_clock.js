@@ -1,5 +1,6 @@
 import React from "react";
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from "@material-ui/core/Button";
 
 class CurrentClock extends React.Component
 {
@@ -172,6 +173,7 @@ class CurrentClock extends React.Component
                                     c.area_name + "/" + c.start_hour + "/" + c.start_min + "/" +
                                     c.end_hour + "/" + c.end_min + "\n"
                                 }
+                                <Button variant="contained" color={"secondary"} onClick={event=>{this.props.onRequestTimeArea( c.area_name )}}>수정</Button>
                                 </body>
                             )
                         })

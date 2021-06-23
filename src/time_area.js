@@ -49,10 +49,51 @@ class TimeArea extends React.Component
         this.onChangeEndTime = this.onChangeEndTime.bind( this )
         this.onTextChange = this.onTextChange.bind( this )
         this.onConfirmDialog = this.onConfirmDialog.bind( this )
+        this.onCloseDialog = this.onCloseDialog.bind( this )
+    }
+
+    paddingStr( str )
+    {
+        if ( str.length < 2 )
+        {
+            str = "0" + str;
+        }
+
+        return str;
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot)
+    {
+        if ( this.props.fix_area_id && !this.state.fix_area_id )
+        {
+            let list_string = window.localStorage.getItem("time_area_list" );
+            let list = JSON.parse( list_string )
+            let find_element = list.find( element => element.area_name === this.props.fix_area_id )
+
+            if ( find_element === undefined )
+            {
+                console.log("WARN WARN WARN")
+                return
+            }
+
+            let begin_time_str = this.paddingStr( find_element.start_hour.toString() ) + ":" + this.paddingStr( find_element.start_min.toString() ) + ":00"
+            let end_time_str = this.paddingStr( find_element.end_hour.toString() ) + ":" + this.paddingStr( find_element.end_min.toString() ) + ":00"
+
+            this.setState(  {
+                fix_area_id: this.props.fix_area_id,
+                area_name: this.props.fix_area_id,
+                begin_selected_time: new Date("2021-05-05T" + begin_time_str ),
+                end_selected_time: new Date("2021-05-05T" + end_time_str ),
+                open: true,
+            } )
+        }
     }
 
     onCloseDialog()
     {
+        this.setState( {fix_area_id: null, open: false})
+        this.props.onChangeTimeArea()
     }
 
     onConfirmDialog( event )
@@ -81,13 +122,25 @@ class TimeArea extends React.Component
         let end_min = this.state.end_selected_time.getMinutes();
 
         let area_name = this.state.area_name
-        obj[ obj.length ] = { area_name: area_name, start_hour: start_hour, start_min: start_min,
+        let idx = 0
+
+        if ( this.state.fix_area_id )
+        {
+            idx = obj.findIndex( (element)=> element.area_name === this.state.fix_area_id )
+        }
+        else
+        {
+            idx = obj.length
+        }
+
+        obj[ idx ] = { area_name: area_name, start_hour: start_hour, start_min: start_min,
             end_hour: end_hour, end_min: end_min }
 
         window.localStorage.setItem("time_area_list", JSON.stringify(obj))
 
         console.log( this.state.begin_selected_time + " " + this.state.end_selected_time )
-        this.setState( { open: false } )
+        this.setState( { open: false, fix_area_id: null } )
+        this.props.onChangeTimeArea()
     }
 
     onChangeBeginTime(time )
@@ -153,7 +206,7 @@ class TimeArea extends React.Component
                             <TextField id={"input_area_field"} label={"권역 이름"} value={this.state.area_name} onChange={this.onTextChange}/>
                         </form>
                         <Button variant="contained" color={"primary"} onClick={event=>{this.onConfirmDialog( event )}}>확인</Button>
-                        <Button variant="contained" color={"secondary"} onClick={event=>{this.setState( {open: false} ) }}>취소</Button>
+                        <Button variant="contained" color={"secondary"} onClick={event=>{this.onCloseDialog( event )}}>취소</Button>
                     </DialogContent>
                 </Dialog>
             </div>
