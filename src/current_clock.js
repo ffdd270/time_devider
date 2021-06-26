@@ -133,7 +133,7 @@ class CurrentClock extends React.Component
             select_list_data.next_area_data = next_area_data
 
         }
-        
+
         return (list.map( (area_data) => {
             let next_area_name = ''
             if ( area_data.next_area_data !== null )
