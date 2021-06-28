@@ -14,11 +14,9 @@ class CurrentClock extends React.Component
         };
     }
 
-    componentDidMount()
+    updateTimeArea( )
     {
-        this.interval = setInterval(() => this.setState( { time: Date.now() } ) );
-
-        let list_string = window.localStorage.getItem("time_area_list" );
+        let list_string = this.props.area;
         let list = []
 
         if ( list_string !== null && list_string !== undefined && list_string.length !== 0 )
@@ -26,7 +24,23 @@ class CurrentClock extends React.Component
             list = JSON.parse( list_string )
         }
 
-        this.setState( { time_area_list: list } )
+        this.setState( { time_area_list: list, prv_area_string: list_string } )
+    }
+
+    componentDidMount()
+    {
+        this.interval = setInterval(() => this.setState( { time: Date.now() } ) );
+
+        this.updateTimeArea = this.updateTimeArea.bind( this )
+        this.updateTimeArea();
+    }
+
+    componentDidUpdate( prevProps, prevState )
+    {
+        if ( prevProps.area !== this.props.area )
+        {
+            this.updateTimeArea();
+        }
     }
 
     getTm( hour, min, sec = 0 )

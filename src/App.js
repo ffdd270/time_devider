@@ -40,7 +40,7 @@ class App extends React.Component
                 </header>
 
                 <div className="App-AreaData">
-                    <AreaDataManager/>
+                    <AreaDataManager onChangeTimeArea={ ()=>{ this.setState({time_area_list:window.localStorage.getItem("time_area_list")})} } />
                 </div>
             </div>
         );

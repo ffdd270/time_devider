@@ -44,6 +44,7 @@ class AreaDataManager extends React.Component
 
         window.localStorage.setItem( "time_area_list", this.state.to_change_text_area_json );
         this.setState( { open: false, to_change_text_area_json: '' } );
+        this.props.onChangeTimeArea();
     }
 
     onCloseDialog()
