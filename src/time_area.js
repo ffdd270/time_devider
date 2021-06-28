@@ -124,6 +124,13 @@ class TimeArea extends React.Component
         let area_name = this.state.area_name
         let idx = 0
 
+        // 시간이 더 크면?
+        if ( (start_hour > end_hour) || (start_hour === end_hour && start_min > end_min) )
+        {
+            alert("범위가 유효하지 않습니다.");
+            return;
+        }
+
         if ( this.state.fix_area_id )
         {
             idx = obj.findIndex( (element)=> element.area_name === this.state.fix_area_id )
