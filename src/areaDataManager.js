@@ -79,7 +79,7 @@ class AreaDataManager extends React.Component
                                 InputProps={{
                                     readOnly: true,
                                 }}
-                                value={window.localStorage.getItem("time_area_list").toString()}
+                                value={window.localStorage.getItem("time_area_list")?.toString()}
                                 multiline
                                 variant="outlined"
                             />
